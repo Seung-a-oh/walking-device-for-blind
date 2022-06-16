@@ -38,29 +38,21 @@ def navigate(DEST):
     route = graph.a_star_algorithm(now_loc, DEST)
     route_len = len(route)
     before_corner = 0	
+
     if route_len > 1:
         want = xy_direction(route[0],route[1])        # 첫 진행 방향 초기화
-    # me = get_angle()
 
     while now_loc != DEST:
 
-        if now_index >= 0:
+        if now_index >= 0:          # 루트 상에서 이동을 하나 이상 했다면, pre_loc 저장해주기
             pre_loc = now_loc
-        now_loc = get_loc()
-        #만약 현재 위치가 (시나리오 상의)코너 전 비콘이면 
-        if  now_loc == (4, 81, 12):#or now_loc == (6, 65, 19) os.system('omxplayer -o ./mp3/before_corner_left &') print('잠시후 좌회전입니다')
-            if before_corner == 10:#4번 감지되면
-                os.system('omxplayer ./mp3/vibration/before_corner_right_short.mp3')
-                print('잠시후 우회전입니다.')
-               # before_corner =0
-            before_corner +=1
-        if now_loc == (6, 65, 19):
-            if before_corner == 4:
-                os.system('omxplayer ./mp3/vibration/before_corner_left_short.mp3')
-                print('잠시후 좌회전입니다.')
-            #os.system('omxplayer ./mp3/vibration/before_corner_left_sp.mp3')
-            before_corner += 1 #출력 완료
-        # 값이 튄 경우 / 현재 감지한 x,y와 이전 위치의 x,y 값이 3 이상 차이 나면
+
+        now_loc = get_loc()         # 현재 위치 가져오기
+
+        # 만약 현재 위치가 코너 전 비콘이라면, 음성 안내 제공하기
+        # code
+        
+        # 값이 튄 경우 / 현재 감지한 x,y와 이전 위치의 x,y 값이 10 이상 차이 나면 or 이웃노드가 아니면
         if pre_loc != (-1,-1):
             # 나와 내 주변의 이웃한 노드들을 저장해놓고, 값이 그 안에 있지 않으면 튄 값으로 판별
             pre_loc_list = adj[pre_loc]
@@ -72,21 +64,20 @@ def navigate(DEST):
                 now_loc = route[route.index(pre_loc)+1]                                 # 루트 상의 이전(직전에 방문한) 노드의 다음 노드를 넣어줌
                 print("out of range!!!")
         
-        if now_loc not in route:        # 경로에서 이탈했으면
+        if now_loc not in route:        # 경로에서 이탈했으면 경로 재탐색
             now_index = 0
             navigate(DEST)
 
         # 인덱스 range 초과 방지 하기 위해서
         now_index = route.index(now_loc)
 
-        # 둘의 값이 같다는 것은, 루트의 마지막 즉, 도착지
-        # 도착지 처리 해야함.
-        if now_index + 1 == route_len:
+        if now_index + 1 == route_len:      # 도착했을 경우
             next_loc = (-1,-1)
         else:
             next_loc = route[now_index+1]
         # 각도로 진동 발생 부분
 
+        # 엘리베이터에 도착하면
         if evei == 0 and now_loc[0] != next_loc[0] and now_loc[1:] == next_loc[1:]:
            print(evei, now_loc, next_loc)
            os.system('omxplayer ./mp3/elev_explan.mp3')
@@ -96,9 +87,7 @@ def navigate(DEST):
         me = get_angle()
         pre_want = want
         if next_loc != (-1,-1):
-            want = xy_direction(now_loc, next_loc) #수정
-            # if now_loc == (4,65,19) and next_loc == (6, 65, 19): #4층 엘베 -> 6층 엘베 
-            #     pre_want = 260
+            want = xy_direction(now_loc, next_loc) 
                  
             if pre_want != want:                          # 코너면,
                 before_corner = 0
@@ -126,30 +115,6 @@ def navigate(DEST):
                     os.system('omxplayer ./mp3/vibration/before_elev.mp3')
                     print('잠시후 엘리베이터가 있습니다.')
 
-            if loc.obs_event.is_set():
-                print('초음파 방향 맞추기')
-                obs_want = get_obs_angle()
-                vib_by_ob_left_for(0.1)
-                if (obs_want-10) >= me or me >= (obs_want+10):    # 내가 보고 있는 방향이 진행 방향이 아니라면,
-                    turn_direction = turn(obs_want, me)
-                    if turn_direction == 'right':
-                        print('right vibration')
-                        vib_obs_right()     # 진동을 발생
-                        while (obs_want-10) >= me or me >= (obs_want+10):  # 목표 방향 +-10 이내가 될 때 까지
-                            me = get_angle()
-                            if obs_want > 350 and me <= 10:
-                                me += 360
-                            print('내가 보고 있는 방향: '+str(me)+' / 맞춰야 할 방향: '+str(obs_want))
-                            time.sleep(0.2)
-                    elif turn_direction == 'left':
-                        print('left vibration')
-                        vib_obs_left()      # 진동을 발생
-                        while (obs_want-10) >= me or me >= (obs_want+10):  # 목표 방향 +-10 이내가 될 때 까지
-                            me = get_angle()
-                            print('내가 보고 있는 방향: '+str(me)+' / 맞춰야 할 방향: '+str(obs_want))
-                            time.sleep(0.2)
-                loc.obs_event.clear()
-                vib_stop()
 
         print('route:'+str(route))
         # print('pre_want: '+str(pre_want)+' / want:'+str(want)+' / me:'+str(me))
