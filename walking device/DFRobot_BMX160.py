@@ -13,7 +13,7 @@ import sys
 sys.path.append('../')
 import smbus
 import time
-
+ 
 class BMX160:
     
     _BMX160_CHIP_ID_ADDR             = (0x00)

@@ -4,8 +4,6 @@ import RPi.GPIO as GPIO
 import time
 import os
 import loc
-# from ttts import *
-
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
@@ -17,22 +15,6 @@ room = 16     # music   -> 2
 GPIO.setup(Start_Pin, GPIO.IN)
 GPIO.setup(floor, GPIO.IN)
 GPIO.setup(room, GPIO.IN)
-
-
-# if f_cnt != 0 and r_cnt != 0:
-    
-# desination_coor = {
-#     'ML604': (6,65,13), 
-#     'startup': (6,71,13), 
-#     'parking_lot6': (6,65,19), 
-#     'toilet': (4,48,12),
-#     'parking_lot4': (4,65,19),
-#     'ground': (4,45,2),
-#     'ML416': (4,56,12),
-#     'ML417': (4,38,12),
-#     'working': (4,72,12)
-# }
-
 
 desination_coor = {
     'ML604': {'location':(6,65,13),'bearing':'n'},
@@ -79,7 +61,6 @@ def set_dest():
     
     if f_cnt == 4:
         if r6_cnt >= 1:
-            # print(room_6[r6_cnt-1])
             loc.dest_bearing = desination_coor[room_6[r6_cnt-1]['bearing']]
             return desination_coor[room_6[r6_cnt-1]['location']]
         else:
@@ -87,7 +68,6 @@ def set_dest():
             return desination_coor['startup']['location']
     elif f_cnt == 7:
         if r4_cnt >= 1:
-            # print(room_4[r4_cnt-1])
             loc.dest_bearing = desination_coor[room_4[r4_cnt-1]['bearing']]
             return desination_coor[room_4[r4_cnt-1]['location']]
         else:
@@ -111,4 +91,3 @@ def detect_start():
 
 if __name__ == "__main__":
     print(set_dest())
-    # print(desination_coor['toilet'])

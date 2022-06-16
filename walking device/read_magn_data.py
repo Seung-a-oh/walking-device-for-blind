@@ -61,39 +61,13 @@ def geomagnetic_thread():
         time.sleep(0.2)
 
         angle = math.atan2(data[1],data[0])*180/pi+180
-        # f.write(str(int(angle))+'\n')
         # print("angle: %d" %angle)
         loc.heading_angle = int(angle)
         loc.obs_angle = int(angle)
 
-def bangwui():
-    for a in range(100):
-        if loc.mag_event.is_set():
-            print('Geomagnetic thread stopped!')
-            return
-
-        data= bmx.get_all_data()
-        time.sleep(0.2)
-
-        angle = math.atan2(data[1],data[0])*180/pi+180
-        # f.write(str(int(angle))+'\n')
-        print("angle: %d" %angle)
-        loc.heading_angle = int(angle)
-
 def get_angle():
     return loc.heading_angle
 
-def get_obs_angle():
-    return loc.obs_angle
 
 if __name__ == "__main__":
-       # i = input()
-    #f = open('6_angle'+str(i)+'.csv', 'a')
-    bangwui()
-    #f.close()
-#     main()
-
-# 북70/60
-# 서158
-# 남152
-# 동110.
+    main()

@@ -68,7 +68,6 @@ def location_thread():
                 result = []     # rssi, 그룹 / 커플만 있음.
                 i = 0
 
-#                print("pari:",pair)
                 for j in pair:
                     for k in pair[i+1:]:    # pair 전체를 돌면서 쌍 매칭
                         # j[0]: MAC, j[1]: 그룹, j[2]:rssi
@@ -87,16 +86,12 @@ def location_thread():
 
                 beacon_list = []
                 if len(best) == 3:          # 현위치 5개가 모였을 때, 최빈 값 찾는 코드
-                    # print("----------------------------")
                     best_count = Counter(best).most_common(1)
-                    # print('my_location: '+ str(best_count[0][0]))
-                    # print(best, 'my_location:', best_count[0][0])
+
                     loc.now_loc = best_count[0][0]
                     loc.now_locs = best_count[0][0]
-                    # print("----------------------------")
-                    # print("beacon: "+str(showing))
+
                     best = []
-                    showing = []
 
 
 if __name__ == "__main__":

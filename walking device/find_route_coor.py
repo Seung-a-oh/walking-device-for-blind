@@ -9,6 +9,7 @@ class Graph:
     def get_neighbors(self, v):
         return self.adjac_lis[v]
 
+    # 휴리스틱 함수
     def h(self, n, dest):
         n_floor = n[0];    n_x = n[1];    n_y = n[2]
         dest_floor = dest[0];    dest_x = dest[1];    dest_y = dest[2]

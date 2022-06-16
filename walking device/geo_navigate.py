@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from location import *
-# from trash import *
 from find_route_coor import *
-# from geomagnetic import *
 from read_magn_data import *
 from vibration import *
 from graph import adjac_lis as adj
@@ -165,74 +163,37 @@ def navigate(DEST):
 
     return 1
 
-def xy_direction(now, next):
-    global pre_want
-    floor = now[0]
+
+# 내가 가야할 방향을 좌표로 계산
+def want_direction(now, next):
     x1 = now[1];    y1 = now[2]
     x2 = next[1];    y2 = next[2]
     x = x1 - x2;         y = y1 - y2
 
-    if now[0]-next[0] != 0:
-        if x==0 and y==0:
-            pre_want = 260      # 6층 남쪽 각도 리턴
-            return 260
-    # if next == (-1,-1):
-    #     return pre_want
-    if floor == 4:            # 4층 회전
-        if x > 0 and y == 0:           # x 좌표가 감소했으면
-            return 43         # 서측
-        elif x < 0 and y == 0:
-            return 213        # 동측
-        elif y > 0 and x == 0:         
-            return 293        # 남측
-        elif y < 0 and x == 0:         
-            return 145        # 북측
-        else:
-            return 93         # 북서
-    else:                     # 7층 회전
-        if x > 0 and y == 0:      
-            return 15         # 서측 4
-        elif x < 0 and y == 0:
-            return 190         # 동측 3  / 293,258
-        elif y > 0 and x == 0:         
-            return 260         # 남측 2 / 204,180
-        elif y < 0 and x == 0:         
-            return 97         # 북측 1 / 119
-        #elif x==0 and y==0:
-           # return 260 직선에서 고장남 
-        else:               
-            return 50        # 남서
-    # elif x == 0 and y == 0:     # 층 이동 시, xy 좌표가 변하지 않음
-    #     return pre_want
+    diag = math.sqrt(x**2 + y**2)
+    result = math.acos(diag/abs(x))
+    degree = math.degrees(result)
 
-# def want_direction(now, next):
-#     x1 = now[1];    y1 = now[2]
-#     x2 = next[1];    y2 = next[2]
-#     x = x1 - x2;         y = y1 - y2
-
-#     diag = math.sqrt(x**2 + y**2)
-#     result = math.acos(diag/abs(x))
-#     degree = math.degrees(result)
-
-#     if x > 0 and y == 0:         # 서측  
-#         return 270          
-#     elif x < 0 and y == 0:      # 동측
-#         return 90           
-#     elif y > 0 and x == 0:      # 남측      
-#         return 180          
-#     elif y < 0 and x == 0:      # 북측    
-#         return 0            
-#     elif x < 0 and y < 0:       # 1사분면
-#         return 270 - degree
-#     elif x < 0 and y > 0:       # 4사분면
-#         return 270 + degree
-#     elif x > 0 and y < 0:       # 2사분면
-#         return 90 - degree
-#     elif x > 0 and y > 0:       # 3사분면
-#         return 90 + degree
+    if x > 0 and y == 0:         # 서측  
+        return 270          
+    elif x < 0 and y == 0:      # 동측
+        return 90           
+    elif y > 0 and x == 0:      # 남측      
+        return 180          
+    elif y < 0 and x == 0:      # 북측    
+        return 0            
+    elif x < 0 and y < 0:       # 1사분면
+        return 270 - degree
+    elif x < 0 and y > 0:       # 4사분면
+        return 270 + degree
+    elif x > 0 and y < 0:       # 2사분면
+        return 90 - degree
+    elif x > 0 and y > 0:       # 3사분면
+        return 90 + degree
 
 
-def turn(want, me):                 # 방향 맞출 때 왼쪽으로 도는게 빠른지, 오른쪽으로 도는게 빠른지
+# 방향 왼쪽으로 도는게 빠른지, 오른쪽으로 도는게 빠른지
+def turn(want, me):                 
     if want >= me:
         left = 360 + me - want
         right = want - me
@@ -244,4 +205,3 @@ def turn(want, me):                 # 방향 맞출 때 왼쪽으로 도는게 �
         return 'left'
     else:
         return 'right'
-

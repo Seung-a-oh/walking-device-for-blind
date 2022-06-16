@@ -41,7 +41,7 @@ def intro():
             try:
                 gth = Thread(target=geomagnetic_thread)
                 gth.daemon = True
-                gth.start()
+                gth.start()                 # 방향 파악 스레드 시작
             except Exception as e:
                 print(e)
             
@@ -65,9 +65,7 @@ def intro():
                 loc_thread = 0
                 loc.event.set()
                 loc.mag_event.set()
-                #loc.vib_event.set()
             USING = detecting_people()
-
 
 
 def perform(DEST):   

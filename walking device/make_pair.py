@@ -232,27 +232,6 @@ beacon36 = dict()
 beacon36["group"] = (6,45,13)
 Beacon["00:19:01:73:ee:87"] = beacon36
 
-
-'''
-beacon31 = dict()
-beacon31["place"] = "7F_C"
-beacon31["group"] = (7,71,11)
-Beacon["00:19:01:72:a1:1b"] = beacon31
-beacon32 = dict()
-beacon32["place"] = "7F_C"
-beacon32["group"] = (7,71,11)
-Beacon["00:19:01:72:9e:dd"] = beacon32
-'''
-#20그룹
-# beacon33 = dict()
-# beacon33["place"] = "7F_STARTUP_DOOR"
-# beacon33["group"] = (7,79,11)
-# Beacon["00:19:01:73:ee:37"] = beacon33
-# beacon34 = dict()
-# beacon34["place"] = "7F_STARTUP_DOOR"
-# beacon34["group"] = (7,79,11)
-# Beacon["00:19:01:73:e2:a9"] = beacon34
-
 with io.open('./pair.json', 'wb',
 # encoding='utf-8'
 )as make_file:

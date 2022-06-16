@@ -17,11 +17,6 @@ def once():
 	time.sleep(3)
 	GPIO.output(LEFT, False)
 
-def obstacle():
-	GPIO.output(LEFT, True)
-	time.sleep(0.2)
-	GPIO.output(LEFT, False)
-
 def vib_left():					# time은 회전 각도에 따라
 	GPIO.output(LEFT, True)
 	os.system('omxplayer ./mp3/vibration/left.mp3')
@@ -29,7 +24,6 @@ def vib_left():					# time은 회전 각도에 따라
 def vib_right():
 	GPIO.output(RIGHT, True)
 	os.system('omxplayer ./mp3/vibration/right.mp3')
-
 
 def vib_stop():
     GPIO.output(LEFT, False)
@@ -102,12 +96,4 @@ def vib_both_for(t):
 # myPwm.stop()
 
 if __name__ == "__main__":
-	# vib_left_2s()
-	# time.sleep(3)
-	# vib_left_4s
-	# vib_stop()
-        #vib_right_2s()
-        #vib_by_ob_right_for(0.1)
-    vib_stop()
-	# time.sleep(1)
-	# vib_left()
+	vib_stop()
